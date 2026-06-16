@@ -11,20 +11,15 @@ namespace Manaos.Entities
             DetallesSolicitudReposicion = new HashSet<DetalleSolicitudReposicion>();
         }
 
-        #region Properties
         public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
         public EstadoSolicitudReposicion Estado { get; set; }
         [StringLength(500)]
         public string? Observaciones { get; private set; }
-        #endregion
 
-        #region Virtual
         public virtual ICollection<DetalleSolicitudReposicion> DetallesSolicitudReposicion { get; set; }
-        #endregion
 
-        #region setters y getters
         public void SetObservaciones(string? observaciones)
         {
             if (observaciones != null && string.IsNullOrWhiteSpace(observaciones))
@@ -36,6 +31,5 @@ namespace Manaos.Entities
         {
             return string.Join(": ", this.GetType().BaseType.Name, Estado.ToString());
         }
-        #endregion
     }
 }

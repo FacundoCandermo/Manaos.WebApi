@@ -16,20 +16,15 @@ namespace Manaos.Entities
             SetNombre(nombre);
         }
 
-        #region Properties
         public int Id { get; set; }
         [StringLength(100)]
         public string Nombre { get; private set; }
         [StringLength(200)]
         public string? Direccion { get; private set; }
-        #endregion
 
-        #region Virtual
         public virtual ICollection<StockBodega> StocksBodegas { get; set; }
         public virtual ICollection<MovimientoStock> MovimientosStock { get; set; }
-        #endregion
 
-        #region setters y getters
         public void SetNombre(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
@@ -48,6 +43,5 @@ namespace Manaos.Entities
         {
             return string.Join(": ", this.GetType().BaseType.Name, Nombre);
         }
-        #endregion
     }
 }

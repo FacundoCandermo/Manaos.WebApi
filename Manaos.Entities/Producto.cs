@@ -6,7 +6,6 @@ namespace Manaos.Entities
 {
     public class Producto : IEntidad, IClassMethods
     {
-        #region Properties
         public int Id { get; set; }
         [StringLength(100)]
         public string Nombre { get; set; }
@@ -15,17 +14,12 @@ namespace Manaos.Entities
         public decimal Precio { get; set; }
         [ForeignKey(nameof(CategoriaProducto))]
         public int IdCategoriaProducto { get; set; }
-        #endregion
 
-        #region Virtual
         public virtual CategoriaProducto CategoriaProducto { get; set; }
-        #endregion
 
-        #region setters y getters
         public string GetClassName()
         {
             return string.Join(": ", this.GetType().BaseType.Name, Nombre);
         }
-        #endregion
     }
 }

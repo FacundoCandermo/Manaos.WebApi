@@ -5,7 +5,6 @@ namespace Manaos.Entities
 {
     public class DetalleOrdenCompra : IEntidad
     {
-        #region Properties
         public DetalleOrdenCompra() { }
         public int Id { get; set; }
         [ForeignKey(nameof(OrdenCompra))]
@@ -15,14 +14,10 @@ namespace Manaos.Entities
         public int Cantidad { get; private set; }
         public decimal PrecioUnitario { get; private set; }
         public decimal Subtotal { get; private set; }
-        #endregion
 
-        #region Virtual
         public virtual OrdenCompra OrdenCompra { get; set; }
         public virtual Producto Producto { get; set; }
-        #endregion
 
-        #region setters y getters
         public void SetCantidad(int cantidad)
         {
             if (cantidad <= 0)
@@ -43,6 +38,5 @@ namespace Manaos.Entities
                 throw new ArgumentException("Para realizar el cálculo es necesario cargar la cantidad y el precio unitario.");
             Subtotal = this.Cantidad * this.PrecioUnitario;
         }
-        #endregion
     }
 }

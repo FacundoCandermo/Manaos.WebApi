@@ -12,7 +12,6 @@ namespace Manaos.Entities
             DetallesPedido = new HashSet<DetallePedido>();
         }
 
-        #region Properties
         public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
@@ -22,15 +21,11 @@ namespace Manaos.Entities
         public int IdCliente { get; set; }
         [ForeignKey(nameof(BodegaOrigen))]
         public int IdBodegaOrigen { get; set; }
-        #endregion
 
-        #region Virtual
         public virtual Cliente Cliente { get; set; }
         public virtual Bodega BodegaOrigen { get; set; }
         public virtual ICollection<DetallePedido> DetallesPedido { get; set; }
-        #endregion
 
-        #region setters y getters
         public void SetTotal(decimal total)
         {
             if (total < 0)
@@ -42,6 +37,5 @@ namespace Manaos.Entities
         {
             return string.Join(": ", this.GetType().BaseType.Name, Estado.ToString());
         }
-        #endregion
     }
 }

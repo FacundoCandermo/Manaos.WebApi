@@ -5,7 +5,6 @@ namespace Manaos.Entities
 {
     public class StockBodega : IEntidad
     {
-        #region Properties
         public StockBodega() { }
         public int Id { get; set; }
         [ForeignKey(nameof(Producto))]
@@ -14,14 +13,10 @@ namespace Manaos.Entities
         public int IdBodega { get; set; }
         public int Cantidad { get; private set; }
         public int StockMinimo { get; private set; }
-        #endregion
 
-        #region Virtual
         public virtual Producto Producto { get; set; }
         public virtual Bodega Bodega { get; set; }
-        #endregion
 
-        #region setters y getters
         public void SetCantidad(int cantidad)
         {
             if (cantidad < 0)
@@ -35,6 +30,5 @@ namespace Manaos.Entities
                 throw new ArgumentException("El stock mínimo no puede ser negativo.");
             StockMinimo = stockMinimo;
         }
-        #endregion
     }
 }
