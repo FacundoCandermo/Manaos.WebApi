@@ -37,6 +37,9 @@ namespace Manaos.WebApi.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<bool>("EsPrincipal")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -603,6 +606,9 @@ namespace Manaos.WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdProducto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockMaximo")
                         .HasColumnType("int");
 
                     b.Property<int>("StockMinimo")

@@ -13,6 +13,7 @@ namespace Manaos.Entities
         public int IdBodega { get; set; }
         public int Cantidad { get; private set; }
         public int StockMinimo { get; private set; }
+        public int StockMaximo { get; private set; }
 
         public virtual Producto Producto { get; set; }
         public virtual Bodega Bodega { get; set; }
@@ -29,6 +30,13 @@ namespace Manaos.Entities
             if (stockMinimo < 0)
                 throw new ArgumentException("El stock mínimo no puede ser negativo.");
             StockMinimo = stockMinimo;
+        }
+
+        public void SetStockMaximo(int stockMaximo)
+        {
+            if (stockMaximo < 0)
+                throw new ArgumentException("El stock máximo no puede ser negativo.");
+            StockMaximo = stockMaximo;
         }
     }
 }

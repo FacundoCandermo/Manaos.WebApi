@@ -2,7 +2,7 @@ namespace Manaos.Application.Dtos.DetalleOrdenCompra
 {
     public class DetalleOrdenCompraRequestDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int IdOrdenCompra { get; set; }
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }

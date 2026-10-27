@@ -14,6 +14,7 @@ namespace Manaos.WebApi.Mapping
                 {
                     dest.SetCantidad(src.Cantidad);
                     dest.SetStockMinimo(src.StockMinimo);
+                    dest.SetStockMaximo(src.StockMaximo);
                 });
         }
     }

@@ -11,7 +11,12 @@ namespace Manaos.WebApi.Mapping
             CreateMap<Bodega, BodegaResponseDto>();
             CreateMap<BodegaRequestDto, Bodega>()
                 .ConstructUsing(dto => new Bodega(dto.Nombre))
-                .AfterMap((src, dest) => dest.SetDireccion(src.Direccion));
+                .AfterMap((src, dest) =>
+                {
+                    dest.SetNombre(src.Nombre);
+                    dest.SetDireccion(src.Direccion);
+                    dest.SetEsPrincipal(src.EsPrincipal);
+                });
         }
     }
 }

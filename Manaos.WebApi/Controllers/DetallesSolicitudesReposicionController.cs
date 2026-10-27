@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.DetalleSolicitudReposicion;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class DetallesSolicitudesReposicionController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var detalleSolicitudReposicion = _detalleSolicitudReposicion.GetById(Id.Value);
-            if (detalleSolicitudReposicion is null)
+            DetalleSolicitudReposicion detalleSolicitudReposicionBack = _detalleSolicitudReposicion.GetById(Id.Value);
+            if (detalleSolicitudReposicionBack is null)
             { return NotFound(); }
-            detalleSolicitudReposicion = _mapper.Map<DetalleSolicitudReposicion>(detalleSolicitudReposicionRequestDto);
-            _detalleSolicitudReposicion.Save(detalleSolicitudReposicion);
+            _mapper.Map(detalleSolicitudReposicionRequestDto, detalleSolicitudReposicionBack);
+            _detalleSolicitudReposicion.Save(detalleSolicitudReposicionBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var detalleSolicitudReposicion = _detalleSolicitudReposicion.GetById(Id.Value);
-            if (detalleSolicitudReposicion is null)
+            DetalleSolicitudReposicion detalleSolicitudReposicionBack = _detalleSolicitudReposicion.GetById(Id.Value);
+            if (detalleSolicitudReposicionBack is null)
             { return NotFound(); }
-            _detalleSolicitudReposicion.Delete(detalleSolicitudReposicion.Id);
+            _detalleSolicitudReposicion.Delete(detalleSolicitudReposicionBack.Id);
             return Ok();
         }
     }

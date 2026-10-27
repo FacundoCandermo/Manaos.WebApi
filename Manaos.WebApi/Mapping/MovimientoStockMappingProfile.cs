@@ -9,7 +9,7 @@ namespace Manaos.WebApi.Mapping
         public MovimientoStockMappingProfile()
         {
             CreateMap<MovimientoStock, MovimientoStockResponseDto>()
-                .ForMember(dest => dest.Fecha, ori => ori.MapFrom(src => src.Fecha.ToShortDateString()))
+                .ForMember(dest => dest.Fecha, ori => ori.MapFrom(src => src.Fecha.ToString("yyyy-MM-dd")))
                 .ForMember(dest => dest.Tipo, ori => ori.MapFrom(src => src.Tipo.ToString()));
             CreateMap<MovimientoStockRequestDto, MovimientoStock>()
                 .AfterMap((src, dest) =>

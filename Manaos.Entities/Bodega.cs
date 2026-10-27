@@ -21,6 +21,7 @@ namespace Manaos.Entities
         public string Nombre { get; private set; }
         [StringLength(200)]
         public string? Direccion { get; private set; }
+        public bool EsPrincipal { get; private set; }
 
         public virtual ICollection<StockBodega> StocksBodegas { get; set; }
         public virtual ICollection<MovimientoStock> MovimientosStock { get; set; }
@@ -37,6 +38,11 @@ namespace Manaos.Entities
             if (direccion != null && string.IsNullOrWhiteSpace(direccion))
                 throw new ArgumentException("La dirección de la bodega no puede estar vacía.");
             Direccion = direccion;
+        }
+
+        public void SetEsPrincipal(bool esPrincipal)
+        {
+            EsPrincipal = esPrincipal;
         }
 
         public string GetClassName()

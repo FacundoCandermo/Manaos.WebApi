@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.CategoriaProducto;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriasController : ControllerBase
@@ -66,7 +69,7 @@ namespace Manaos.WebApi.Controllers
             CategoriaProducto categoriaBack = _categoria.GetById(Id.Value);
             if (categoriaBack is null)
             { return NotFound(); }
-            categoriaBack = _mapper.Map<CategoriaProducto>(categoriaRequestDto);
+            _mapper.Map(categoriaRequestDto, categoriaBack);
             _categoria.Save(categoriaBack);
             return Ok();
         }
@@ -75,8 +78,6 @@ namespace Manaos.WebApi.Controllers
         public async Task<IActionResult> Borrar(int? Id)
         {
             if (!Id.HasValue)
-            { return BadRequest(); }
-            if (!ModelState.IsValid)
             { return BadRequest(); }
             CategoriaProducto categoriaBack = _categoria.GetById(Id.Value);
             if (categoriaBack is null)

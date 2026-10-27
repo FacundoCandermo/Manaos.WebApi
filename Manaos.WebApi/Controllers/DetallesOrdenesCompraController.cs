@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.DetalleOrdenCompra;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class DetallesOrdenesCompraController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var detalleOrdenCompra = _detalleOrdenCompra.GetById(Id.Value);
-            if (detalleOrdenCompra is null)
+            DetalleOrdenCompra detalleOrdenCompraBack = _detalleOrdenCompra.GetById(Id.Value);
+            if (detalleOrdenCompraBack is null)
             { return NotFound(); }
-            detalleOrdenCompra = _mapper.Map<DetalleOrdenCompra>(detalleOrdenCompraRequestDto);
-            _detalleOrdenCompra.Save(detalleOrdenCompra);
+            _mapper.Map(detalleOrdenCompraRequestDto, detalleOrdenCompraBack);
+            _detalleOrdenCompra.Save(detalleOrdenCompraBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var detalleOrdenCompra = _detalleOrdenCompra.GetById(Id.Value);
-            if (detalleOrdenCompra is null)
+            DetalleOrdenCompra detalleOrdenCompraBack = _detalleOrdenCompra.GetById(Id.Value);
+            if (detalleOrdenCompraBack is null)
             { return NotFound(); }
-            _detalleOrdenCompra.Delete(detalleOrdenCompra.Id);
+            _detalleOrdenCompra.Delete(detalleOrdenCompraBack.Id);
             return Ok();
         }
     }

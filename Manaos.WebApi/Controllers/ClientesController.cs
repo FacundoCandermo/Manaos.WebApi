@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.Cliente;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var cliente = _cliente.GetById(Id.Value);
-            if (cliente is null)
+            Cliente clienteBack = _cliente.GetById(Id.Value);
+            if (clienteBack is null)
             { return NotFound(); }
-            cliente = _mapper.Map<Cliente>(clienteRequestDto);
-            _cliente.Save(cliente);
+            _mapper.Map(clienteRequestDto, clienteBack);
+            _cliente.Save(clienteBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var cliente = _cliente.GetById(Id.Value);
-            if (cliente is null)
+            Cliente clienteBack = _cliente.GetById(Id.Value);
+            if (clienteBack is null)
             { return NotFound(); }
-            _cliente.Delete(cliente.Id);
+            _cliente.Delete(clienteBack.Id);
             return Ok();
         }
     }

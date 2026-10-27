@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.StockBodega;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class StocksBodegasController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var stockBodega = _stockBodega.GetById(Id.Value);
-            if (stockBodega is null)
+            StockBodega stockBodegaBack = _stockBodega.GetById(Id.Value);
+            if (stockBodegaBack is null)
             { return NotFound(); }
-            stockBodega = _mapper.Map<StockBodega>(stockBodegaRequestDto);
-            _stockBodega.Save(stockBodega);
+            _mapper.Map(stockBodegaRequestDto, stockBodegaBack);
+            _stockBodega.Save(stockBodegaBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var stockBodega = _stockBodega.GetById(Id.Value);
-            if (stockBodega is null)
+            StockBodega stockBodegaBack = _stockBodega.GetById(Id.Value);
+            if (stockBodegaBack is null)
             { return NotFound(); }
-            _stockBodega.Delete(stockBodega.Id);
+            _stockBodega.Delete(stockBodegaBack.Id);
             return Ok();
         }
     }

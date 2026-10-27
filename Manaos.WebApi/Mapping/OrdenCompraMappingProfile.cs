@@ -9,7 +9,7 @@ namespace Manaos.WebApi.Mapping
         public OrdenCompraMappingProfile()
         {
             CreateMap<OrdenCompra, OrdenCompraResponseDto>()
-                .ForMember(dest => dest.Fecha, ori => ori.MapFrom(src => src.Fecha.ToShortDateString()))
+                .ForMember(dest => dest.Fecha, ori => ori.MapFrom(src => src.Fecha.ToString("yyyy-MM-dd")))
                 .ForMember(dest => dest.Estado, ori => ori.MapFrom(src => src.Estado.ToString()));
             CreateMap<OrdenCompraRequestDto, OrdenCompra>()
                 .AfterMap((src, dest) => dest.SetTotal(src.Total));

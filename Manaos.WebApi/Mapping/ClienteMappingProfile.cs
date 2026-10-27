@@ -13,6 +13,7 @@ namespace Manaos.WebApi.Mapping
                 .ConstructUsing(dto => new Cliente(dto.Nombre))
                 .AfterMap((src, dest) =>
                 {
+                    dest.SetNombre(src.Nombre);
                     dest.SetCuit(src.Cuit);
                     dest.SetTelefono(src.Telefono);
                     dest.SetEmail(src.Email);

@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.Bodega;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class BodegasController : ControllerBase
@@ -53,6 +56,8 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             var bodega = _mapper.Map<Bodega>(bodegaRequestDto);
             _bodega.Save(bodega);
+            if (bodega.EsPrincipal)
+            { DesmarcarOtrasPrincipales(bodega.Id); }
             return Ok(bodega.Id);
         }
 
@@ -63,12 +68,23 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var bodega = _bodega.GetById(Id.Value);
-            if (bodega is null)
+            Bodega bodegaBack = _bodega.GetById(Id.Value);
+            if (bodegaBack is null)
             { return NotFound(); }
-            bodega = _mapper.Map<Bodega>(bodegaRequestDto);
-            _bodega.Save(bodega);
+            _mapper.Map(bodegaRequestDto, bodegaBack);
+            _bodega.Save(bodegaBack);
+            if (bodegaBack.EsPrincipal)
+            { DesmarcarOtrasPrincipales(bodegaBack.Id); }
             return Ok();
+        }
+
+        private void DesmarcarOtrasPrincipales(int idBodegaPrincipal)
+        {
+            foreach (var otra in _bodega.GetAll().Where(b => b.Id != idBodegaPrincipal && b.EsPrincipal))
+            {
+                otra.SetEsPrincipal(false);
+                _bodega.Save(otra);
+            }
         }
 
         [HttpDelete]
@@ -76,12 +92,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var bodega = _bodega.GetById(Id.Value);
-            if (bodega is null)
+            Bodega bodegaBack = _bodega.GetById(Id.Value);
+            if (bodegaBack is null)
             { return NotFound(); }
-            _bodega.Delete(bodega.Id);
+            _bodega.Delete(bodegaBack.Id);
             return Ok();
         }
     }

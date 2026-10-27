@@ -5,7 +5,7 @@ namespace Manaos.Application.Dtos.MovimientoStock
 {
     public class MovimientoStockRequestDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int IdProducto { get; set; }
         public int IdBodega { get; set; }
         public TipoMovimientoStock Tipo { get; set; }

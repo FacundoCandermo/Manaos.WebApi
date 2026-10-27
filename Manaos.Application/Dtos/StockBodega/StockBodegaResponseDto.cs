@@ -7,5 +7,6 @@ namespace Manaos.Application.Dtos.StockBodega
         public int IdBodega { get; set; }
         public int Cantidad { get; set; }
         public int StockMinimo { get; set; }
+        public int StockMaximo { get; set; }
     }
 }

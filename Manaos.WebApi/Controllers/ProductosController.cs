@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.Producto;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductosController : ControllerBase
@@ -66,7 +69,7 @@ namespace Manaos.WebApi.Controllers
             Producto productoBack = _producto.GetById(Id.Value);
             if (productoBack is null)
             { return NotFound(); }
-            productoBack = _mapper.Map<Producto>(productoRequestDto);
+            _mapper.Map(productoRequestDto, productoBack);
             _producto.Save(productoBack);
             return Ok();
         }
@@ -75,8 +78,6 @@ namespace Manaos.WebApi.Controllers
         public async Task<IActionResult> Borrar(int? Id)
         {
             if (!Id.HasValue)
-            { return BadRequest(); }
-            if (!ModelState.IsValid)
             { return BadRequest(); }
             Producto productoBack = _producto.GetById(Id.Value);
             if (productoBack is null)

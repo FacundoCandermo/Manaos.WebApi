@@ -5,7 +5,7 @@ namespace Manaos.Application.Dtos.SolicitudReposicion
 {
     public class SolicitudReposicionRequestDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime Fecha { get; set; }
         public EstadoSolicitudReposicion Estado { get; set; }

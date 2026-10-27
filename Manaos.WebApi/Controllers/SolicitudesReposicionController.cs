@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.SolicitudReposicion;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class SolicitudesReposicionController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var solicitudReposicion = _solicitudReposicion.GetById(Id.Value);
-            if (solicitudReposicion is null)
+            SolicitudReposicion solicitudReposicionBack = _solicitudReposicion.GetById(Id.Value);
+            if (solicitudReposicionBack is null)
             { return NotFound(); }
-            solicitudReposicion = _mapper.Map<SolicitudReposicion>(solicitudReposicionRequestDto);
-            _solicitudReposicion.Save(solicitudReposicion);
+            _mapper.Map(solicitudReposicionRequestDto, solicitudReposicionBack);
+            _solicitudReposicion.Save(solicitudReposicionBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var solicitudReposicion = _solicitudReposicion.GetById(Id.Value);
-            if (solicitudReposicion is null)
+            SolicitudReposicion solicitudReposicionBack = _solicitudReposicion.GetById(Id.Value);
+            if (solicitudReposicionBack is null)
             { return NotFound(); }
-            _solicitudReposicion.Delete(solicitudReposicion.Id);
+            _solicitudReposicion.Delete(solicitudReposicionBack.Id);
             return Ok();
         }
     }

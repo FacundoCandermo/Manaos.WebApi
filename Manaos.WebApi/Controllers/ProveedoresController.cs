@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.Proveedor;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ProveedoresController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var proveedor = _proveedor.GetById(Id.Value);
-            if (proveedor is null)
+            Proveedor proveedorBack = _proveedor.GetById(Id.Value);
+            if (proveedorBack is null)
             { return NotFound(); }
-            proveedor = _mapper.Map<Proveedor>(proveedorRequestDto);
-            _proveedor.Save(proveedor);
+            _mapper.Map(proveedorRequestDto, proveedorBack);
+            _proveedor.Save(proveedorBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var proveedor = _proveedor.GetById(Id.Value);
-            if (proveedor is null)
+            Proveedor proveedorBack = _proveedor.GetById(Id.Value);
+            if (proveedorBack is null)
             { return NotFound(); }
-            _proveedor.Delete(proveedor.Id);
+            _proveedor.Delete(proveedorBack.Id);
             return Ok();
         }
     }

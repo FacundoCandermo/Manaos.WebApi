@@ -95,13 +95,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdBodega,
                         principalTable: "Bodegas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_MovimientosStock_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,13 +123,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdBodega,
                         principalTable: "Bodegas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_StocksBodegas_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,13 +152,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdBodegaOrigen,
                         principalTable: "Bodegas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Pedidos_Clientes_IdCliente",
                         column: x => x.IdCliente,
                         principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,13 +181,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdBodegaDestino,
                         principalTable: "Bodegas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_OrdenesCompra_Proveedores_IdProveedor",
                         column: x => x.IdProveedor,
                         principalTable: "Proveedores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,13 +208,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_DetallesSolicitudesReposicion_SolicitudesReposicion_IdSolicitudReposicion",
                         column: x => x.IdSolicitudReposicion,
                         principalTable: "SolicitudesReposicion",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,13 +237,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdPedido,
                         principalTable: "Pedidos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_DetallesPedidos_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -266,13 +266,13 @@ namespace Manaos.WebApi.Migrations
                         column: x => x.IdOrdenCompra,
                         principalTable: "OrdenesCompra",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_DetallesOrdenesCompra_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

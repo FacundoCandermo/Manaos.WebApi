@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.DetallePedido;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class DetallesPedidosController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var detallePedido = _detallePedido.GetById(Id.Value);
-            if (detallePedido is null)
+            DetallePedido detallePedidoBack = _detallePedido.GetById(Id.Value);
+            if (detallePedidoBack is null)
             { return NotFound(); }
-            detallePedido = _mapper.Map<DetallePedido>(detallePedidoRequestDto);
-            _detallePedido.Save(detallePedido);
+            _mapper.Map(detallePedidoRequestDto, detallePedidoBack);
+            _detallePedido.Save(detallePedidoBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var detallePedido = _detallePedido.GetById(Id.Value);
-            if (detallePedido is null)
+            DetallePedido detallePedidoBack = _detallePedido.GetById(Id.Value);
+            if (detallePedidoBack is null)
             { return NotFound(); }
-            _detallePedido.Delete(detallePedido.Id);
+            _detallePedido.Delete(detallePedidoBack.Id);
             return Ok();
         }
     }

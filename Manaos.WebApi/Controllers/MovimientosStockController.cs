@@ -2,10 +2,13 @@ using AutoMapper;
 using Manaos.Application;
 using Manaos.Application.Dtos.MovimientoStock;
 using Manaos.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Manaos.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MovimientosStockController : ControllerBase
@@ -63,11 +66,11 @@ namespace Manaos.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var movimientoStock = _movimientoStock.GetById(Id.Value);
-            if (movimientoStock is null)
+            MovimientoStock movimientoStockBack = _movimientoStock.GetById(Id.Value);
+            if (movimientoStockBack is null)
             { return NotFound(); }
-            movimientoStock = _mapper.Map<MovimientoStock>(movimientoStockRequestDto);
-            _movimientoStock.Save(movimientoStock);
+            _mapper.Map(movimientoStockRequestDto, movimientoStockBack);
+            _movimientoStock.Save(movimientoStockBack);
             return Ok();
         }
 
@@ -76,12 +79,10 @@ namespace Manaos.WebApi.Controllers
         {
             if (!Id.HasValue)
             { return BadRequest(); }
-            if (!ModelState.IsValid)
-            { return BadRequest(); }
-            var movimientoStock = _movimientoStock.GetById(Id.Value);
-            if (movimientoStock is null)
+            MovimientoStock movimientoStockBack = _movimientoStock.GetById(Id.Value);
+            if (movimientoStockBack is null)
             { return NotFound(); }
-            _movimientoStock.Delete(movimientoStock.Id);
+            _movimientoStock.Delete(movimientoStockBack.Id);
             return Ok();
         }
     }
